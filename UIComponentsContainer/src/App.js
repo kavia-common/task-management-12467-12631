@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { TaskProvider } from './context/TaskContext';
+import AddTask from './components/AddTask';
+import TaskList from './components/TaskList';
+import CustomViews from './components/CustomViews';
+import ErrorSnackbar from './components/ErrorSnackbar';
 
 // PUBLIC_INTERFACE
+/** 
+ * Main App component for Task Management. Hosts global theme logic,
+ * context provider, and overall layout.
+ */
 function App() {
   const [theme, setTheme] = useState('light');
 
@@ -17,32 +25,26 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TaskProvider>
+      <div className="App">
+        <header className="App-header">
+          <button 
+            className="theme-toggle" 
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+          </button>
+          <h1>Task Management</h1>
+          <CustomViews />
+          <AddTask />
+        </header>
+        <main>
+          <TaskList />
+        </main>
+        <ErrorSnackbar />
+      </div>
+    </TaskProvider>
   );
 }
 
